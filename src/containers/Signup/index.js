@@ -1,9 +1,16 @@
 import React from 'react';
 import { Container,Form, Button, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 import Layout from '../../components/Layout';
 import Input from '../../components/UI/Input';
 
 const Signup = (props) => {
+
+    const auth = useSelector(state => state.auth);
+    if(auth.authenticate){
+        return <Navigate to={`/`} />
+    }
     return ( 
         <Layout>
         <Container>

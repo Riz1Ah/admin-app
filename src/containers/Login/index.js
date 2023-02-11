@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container,Form, Button, Row, Col } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
 import { login } from '../../actions';
 import Layout from '../../components/Layout';
 import Input from '../../components/UI/Input';
 
 const Login = (props) => {
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+    const auth = useSelector(state => state.auth);
+
+    
     const dispatch = useDispatch();
     const userLogin = (e) => {
         e.preventDefault();
 
-        const user = {email: 'abc@fs.com', password: 'qwerty'};
+        const user = {username, password};
         dispatch(login(user));
+    }
+    if(auth.authenticate){
+        return <Navigate to={`/`} />
     }
     return (
         <Layout>
@@ -22,16 +33,16 @@ const Login = (props) => {
                     <Input
                                 label='Username'
                                 placeholder='Username'
-                                value=''
+                                value={username}
                                 type='text'
-                                onChange={()=>{}}
+                                onChange={(e)=>setUsername(e.target.value)}
                             />
                     <Input
                                 label='Password'
                                 placeholder='Password'
-                                value=''
-                                type='text'
-                                onChange={()=>{}}
+                                value={password}
+                                type='password'
+                                onChange={(e)=>{setPassword(e.target.value)}}
                             />
                     <Button variant="primary" type="submit">
                         Submit
